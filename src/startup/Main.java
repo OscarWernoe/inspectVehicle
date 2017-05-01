@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package inspectvehicle;
+package startup;
+
+import model.Garage;
+import controller.Controller;
+import view.View;
 
 /**
  *
  * @author oscar
  */
-public class InspectVehicle {
-
-    /**
-     * @param args the command line arguments
-     */
+public class Main {
     public static void main(String[] args) {
-        // TODO code application logic here
+        Garage garage = new Garage();
+        Controller contr = new Controller(garage);
+        View view = new View(contr);
+        view.sampleExecution();
     }
-    
 }
