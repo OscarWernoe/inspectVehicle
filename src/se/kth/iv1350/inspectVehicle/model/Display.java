@@ -1,4 +1,4 @@
-package model;
+package se.kth.iv1350.inspectVehicle.model;
 
 import java.awt.Color;
 import java.awt.Font;

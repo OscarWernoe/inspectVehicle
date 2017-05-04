@@ -1,4 +1,4 @@
-package model;
+package se.kth.iv1350.inspectVehicle.model;
 
 /**
  * This is a facade to the hardware of the garage, namely the door and the queue
@@ -20,6 +20,13 @@ public class Garage {
     public void nextCustomer() {
         door.open();
         display.nextNumber();
+    }
+    
+    /**
+     * Opens the door.
+     */
+    public void openDoor() {
+        door.open();
     }
     
     /**
