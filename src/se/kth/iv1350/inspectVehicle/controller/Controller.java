@@ -78,7 +78,7 @@ public class Controller {
     /**
      * Requests the next inspection item. Calls methods in the <code>Inspection</code> class.
      * 
-     * @return The next inspection item, or, <code>null</code> if there are no more inspections.
+     * @return The next inspection item, or <code>null</code> if there are no more inspections.
      */
     public String requestInspectionItem() {
         if(inspection.hasMoreInspections()) {
