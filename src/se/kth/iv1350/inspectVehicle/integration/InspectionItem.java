@@ -47,7 +47,7 @@ public class InspectionItem {
      * 
      * @param result The result of the control.
      */
-    public void updateResult(String result) {
+    public void setResult(String result) {
         this.result = result;
     }
     
@@ -64,7 +64,6 @@ public class InspectionItem {
             return false;
         }
         InspectionItem otherInspItem = (InspectionItem) other;
-        return otherInspItem.cost == this.cost && otherInspItem.name.equals(this.name)
-                && otherInspItem.result.equals(this.result);
+        return otherInspItem.cost == this.cost && otherInspItem.name.equals(this.name);
     }
 }

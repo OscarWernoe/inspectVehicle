@@ -1,8 +1,6 @@
-package se.kth.iv1350.inspectVehicle.model;
+package se.kth.iv1350.inspectVehicle.integration;
 
 import java.time.YearMonth;
-import se.kth.iv1350.inspectVehicle.integration.CreditCard;
-import se.kth.iv1350.inspectVehicle.integration.PaymentAuthorization;
 
 /**
  * Represents a credit card reader.
@@ -22,7 +20,7 @@ public class CreditCardReader {
      * 
      * @return The customer's credit card.
      */
-    public CreditCard getCreditCard() {
+    private CreditCard getCreditCard() {
         int pin = 1234;
         String number = "1111 AAAA 2222 BBBB";
         String holder = "John Doe";
@@ -38,7 +36,8 @@ public class CreditCardReader {
      * @param cost The cost to be paid.
      * @return The result of the payment authorization.
      */
-    public boolean makePayment(CreditCard card, int cost) {
+    public boolean makePayment(int cost) {
+        CreditCard card = getCreditCard();
         return payAuth.authorizePayment(card, cost);
     }
 }

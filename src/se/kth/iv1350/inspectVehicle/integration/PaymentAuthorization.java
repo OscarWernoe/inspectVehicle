@@ -3,7 +3,7 @@ package se.kth.iv1350.inspectVehicle.integration;
 /**
  * Handles all communication with the payment authorization system.
  */
-public class PaymentAuthorization {
+class PaymentAuthorization {
 
     /**
      * Requests authorization for the specified payment.

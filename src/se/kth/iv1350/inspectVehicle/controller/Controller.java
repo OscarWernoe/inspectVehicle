@@ -1,7 +1,15 @@
 package se.kth.iv1350.inspectVehicle.controller;
 
-import se.kth.iv1350.inspectVehicle.model.*;
-import se.kth.iv1350.inspectVehicle.integration.*;
+import java.util.ArrayList;
+import java.util.List;
+import se.kth.iv1350.inspectVehicle.integration.CreditCardReader;
+import se.kth.iv1350.inspectVehicle.integration.DatabaseManager;
+import se.kth.iv1350.inspectVehicle.integration.DatabaseManagerException;
+import se.kth.iv1350.inspectVehicle.integration.Printer;
+import se.kth.iv1350.inspectVehicle.model.Garage;
+import se.kth.iv1350.inspectVehicle.model.Inspection;
+import se.kth.iv1350.inspectVehicle.model.Vehicle;
+import se.kth.iv1350.inspectVehicle.view.InspectionObserver;
 
 /**
  * This is the application's single controller. All calls to the model pass through here.
@@ -12,6 +20,7 @@ public class Controller {
     private final CreditCardReader cardReader;
     private final Printer printer;
     private Inspection inspection;
+    private final List<InspectionObserver> inspectionObservers = new ArrayList<>();
     
     /**
      * Creates a new instance using the specified objects.
@@ -54,11 +63,19 @@ public class Controller {
      * 
      * @param regNo The registration number of the vehicle to inspect.
      * @return The cost of the inspection.
+     * @throws RegistrationFailedException if the vehicle registration failed.
      */
-    public int registerVehicle(String regNo) {
+    public int registerVehicle(String regNo) throws
+            RegistrationFailedException {
         Vehicle vehicle = new Vehicle(regNo);
-        this.inspection = new Inspection(vehicle, dbMgr, printer);
-        return inspection.getCost();
+        try {
+            this.inspection = new Inspection(vehicle, dbMgr, printer);
+            this.inspection.result.addObservers(inspectionObservers);
+            return inspection.getCost();
+        }
+        catch(DatabaseManagerException dbMgrExc) {
+            throw new RegistrationFailedException("Could not register vehicle.", dbMgrExc);
+        }
     }
     
     /**
@@ -68,8 +85,7 @@ public class Controller {
      * @param cost The cost to be paid.
      */
     public void paymentByCreditCard(int cost) {
-        CreditCard card = cardReader.getCreditCard();
-        boolean authorization = cardReader.makePayment(card, cost);
+        boolean authorization = cardReader.makePayment(cost);
         if(authorization){
             printer.printReceipt(cost);
         }
@@ -96,6 +112,15 @@ public class Controller {
      * @param inspectionIndex The index of the inspection in <code>inspectionList</code>.
      */
     public void enterInspectionResult(String result, int inspectionIndex) {
-        this.inspection.results.enterResult(result, inspectionIndex);
+        this.inspection.result.enterResult(result, inspectionIndex);
+    }
+    
+    /**
+     * The specified observer will be notified of the result of any completed inspection.
+     * 
+     * @param observer The observer to be added.
+     */
+    public void addInspectionObserver(InspectionObserver observer) {
+        inspectionObservers.add(observer);
     }
 }

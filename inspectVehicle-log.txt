@@ -1,0 +1,10 @@
+Jun 2, 2017 8:25:58 AM, Exception was thrown: Could not register vehicle.
+se.kth.iv1350.inspectVehicle.controller.RegistrationFailedException: Could not register vehicle.
+	at se.kth.iv1350.inspectVehicle.controller.Controller.registerVehicle(Controller.java:72)
+	at se.kth.iv1350.inspectVehicle.view.View.sampleExecution(View.java:41)
+	at se.kth.iv1350.inspectVehicle.startup.Main.main(Main.java:30)
+Caused by: se.kth.iv1350.inspectVehicle.integration.DatabaseManagerException: Invalid registration number.
+	at se.kth.iv1350.inspectVehicle.integration.DatabaseManager.findInspectionsByVehicle(DatabaseManager.java:35)
+	at se.kth.iv1350.inspectVehicle.model.Inspection.<init>(Inspection.java:33)
+	at se.kth.iv1350.inspectVehicle.controller.Controller.registerVehicle(Controller.java:67)
+	... 2 more

@@ -25,12 +25,15 @@ public class DatabaseManager {
      * @param vehicle The vehicle to inspect.
      * @return A list of <code>InspectionItem</code>, where each element describes one particular
      *         control.
+     * @throws DatabaseManagerException if the database call failed.
      */
     public List<InspectionItem> findInspectionsByVehicle(Vehicle vehicle) {
         if (vehicle.getRegNo().equals("ABC123")) {
             return inspectionList;
         }
-        return null;
+        else {
+            throw new DatabaseManagerException("Invalid registration number.");
+        }
     }
 
     /**
@@ -44,12 +47,12 @@ public class DatabaseManager {
     }
 
     /**
-     * Stores the result of an inspection in the <code>inspectionList</code>.
+     * Stores the result of a control in <code>inspectionList</code>.
      * 
-     * @param result The result of the inspection.
-     * @param inspectionIndex 
+     * @param result The result of the inspection as a boolean.
+     * @param inspectionIndex The index of the control in <code>inspectionList</code>
      */
     public void storeInspectionResult(String result, int inspectionIndex) {
-        inspectionList.get(inspectionIndex).updateResult(result);
+        inspectionList.get(inspectionIndex).setResult(result);
     }
 }

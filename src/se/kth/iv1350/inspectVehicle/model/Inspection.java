@@ -3,6 +3,7 @@ package se.kth.iv1350.inspectVehicle.model;
 import java.util.List;
 import java.util.Iterator;
 import se.kth.iv1350.inspectVehicle.integration.DatabaseManager;
+import se.kth.iv1350.inspectVehicle.integration.DatabaseManagerException;
 import se.kth.iv1350.inspectVehicle.integration.InspectionItem;
 import se.kth.iv1350.inspectVehicle.integration.Printer;
 
@@ -15,7 +16,7 @@ public class Inspection {
     private final Printer printer;
     private final List<InspectionItem> inspections;
     private final Iterator<InspectionItem> inspectionsIterator;
-    public InspectionResult results;
+    public InspectionResult result;
     
      /**
      * Creates a new instance, representing an inspection of the specified vehicle.
@@ -23,6 +24,7 @@ public class Inspection {
      * @param vehicle The vehicle that is inspected.
      * @param dbMgr   The database manager to use when searching for inspections for the specified
      *                vehicle.
+     * @throws DatabaseManagerException if the database call failed.
      */
     public Inspection(Vehicle vehicle, DatabaseManager dbMgr, Printer printer) {
         this.vehicle = vehicle;
@@ -30,7 +32,7 @@ public class Inspection {
         this.printer = printer;
         this.inspections = dbMgr.findInspectionsByVehicle(this.vehicle);
         this.inspectionsIterator = inspections.iterator();
-        this.results = new InspectionResult(this.dbMgr, this.printer, this.inspections);
+        this.result = new InspectionResult(this.dbMgr, this.printer, this.inspections);
     }
     
      /**

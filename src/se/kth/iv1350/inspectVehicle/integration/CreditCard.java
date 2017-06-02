@@ -5,7 +5,7 @@ import java.time.YearMonth;
 /**
  * Represents a specific credit card.
  */
-public class CreditCard {
+class CreditCard {
     private final int pin;
     private final String number;
     private final String holder;

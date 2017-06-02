@@ -1,11 +1,14 @@
 package se.kth.iv1350.inspectVehicle.controller;
 
+import se.kth.iv1350.inspectVehicle.integration.CreditCardReader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import se.kth.iv1350.inspectVehicle.integration.*;
-import se.kth.iv1350.inspectVehicle.model.*;
+import se.kth.iv1350.inspectVehicle.integration.DatabaseManager;
+import se.kth.iv1350.inspectVehicle.integration.Printer;
+import se.kth.iv1350.inspectVehicle.model.Garage;
+
 
 public class ControllerTest {
     private Garage garage;
@@ -33,38 +36,39 @@ public class ControllerTest {
     }
     
     @Test
-    public void testRegisterVehicleWithInspections() {
+    public void testRegisterVehicleWhenVehicleExists() {
         String regNo = "ABC123";
-        int expResult = 60;
-        int result = instance.registerVehicle(regNo);
-        assertEquals("Wrong cost with inspections.", expResult, result);
+        try {
+            instance.registerVehicle(regNo);
+        }
+        catch (RegistrationFailedException exc) {
+            fail("Exception was thrown: " + exc.getMessage());
+        }
     }
 
-    @Test
-    // Will need to fix bug related to inspectionsIterator.
-    public void testRegisterVehicleWithNoInspections() {
+    @Test(expected = RegistrationFailedException.class)
+    public void testRegisterVehicleWhenVehicleDoesNotExist() throws
+            RegistrationFailedException {
         String regNo = "CBA321";
-        int expResult = 0;
-        int result = instance.registerVehicle(regNo);
-        assertEquals("Wrong cost with no inspections.", expResult, result);
+        instance.registerVehicle(regNo);
     }
 
     @Test
-    public void testRequestInspectionItemWithMoreInspections() {
+    public void testRequestInspectionItemWithMoreInspections() throws
+            RegistrationFailedException {
         instance.registerVehicle("ABC123");
-        String expResult = "Brakes";
         String result = instance.requestInspectionItem();
-        assertEquals("Wrong inspection item returned with more inspections", expResult, result);
+        assertNotNull("Wrong inspection item returned with more inspections", result);
     }
 
     @Test
-    public void testRequestInspectionItemWithNoMoreInspections() {
+    public void testRequestInspectionItemWithNoMoreInspections() throws
+            RegistrationFailedException {
         instance.registerVehicle("ABC123");
         instance.requestInspectionItem();
         instance.requestInspectionItem();
         instance.requestInspectionItem();
-        String expResult = null;
         String result = instance.requestInspectionItem();
-        assertEquals("Wrong inspection item returned with no more inspections", expResult, result);
+        assertNull("Wrong inspection item returned with no more inspections", result);
     }
 }
