@@ -32,7 +32,6 @@ public class CreditCardReader {
     /**
      * Makes a payment using the customer's credit card and requests authorization.
      * 
-     * @param card The customer's credit card.
      * @param cost The cost to be paid.
      * @return The result of the payment authorization.
      */
